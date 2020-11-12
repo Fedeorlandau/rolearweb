@@ -64,8 +64,8 @@
                 <div class="wrap-login100">
 
                     <form class="login100-form validate-form">
-                        <button class="btn btn-primary btn-inicio">Inicio</button>
-                        <button class="btn btn-primary btn-noticias">Noticias</button>
+                        <button class="btn btn-primary btn-inicio" type="button">Inicio</button>
+                        <button class="btn btn-primary btn-noticias" type="button">Noticias</button>
 
                         <div class="heartbeat">
                             <span class="login100-form-logo">
