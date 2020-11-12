@@ -105,4 +105,16 @@
             $(".login100-form-btn").show();
         }
         });
+
+    $('.btn-noticias').click(() =>{
+        $('.content-container').fadeOut('slow', () => {
+            $('.news-container').fadeIn();
+        });
+    })
+
+    $('.btn-inicio').click(() =>{
+        $('.news-container').fadeOut('slow', () => {
+            $('.content-container').fadeIn();
+        });
+    })
 })(jQuery);

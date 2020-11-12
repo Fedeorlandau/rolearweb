@@ -434,9 +434,14 @@ color:rgb(78, 173, 252) !important;
     display: block;
 }
 
+.btn-noticias {
+  cursor: pointer;
+
+}
 .login100-form-ip {
   font-family: Poppins-Medium;
-  font-size: 32px;
+  padding: 10px;
+  font-size: 24px;
   color: #fff;
   line-height: 1.2;
   text-align: center;
@@ -808,4 +813,58 @@ margin-top: 10px;
   color: #a0a0a0;
   line-height: 1.2;
   display: block;
+}
+
+/* List */
+ul {
+  counter-reset: index;  
+  padding: 0;
+}
+
+/* List element */
+li {
+  counter-increment: index; 
+  display: -webkit-box; 
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  padding: 12px 0;
+  box-sizing: border-box;
+  color: white;
+}
+
+
+/* Element counter */
+li::before {
+  content: counters(index, ".", decimal-leading-zero);
+  font-size: 1.5rem;
+  text-align: right;
+  font-weight: bold;
+  min-width: 50px;
+  padding-right: 12px;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+  align-self: flex-start;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(aquamarine), to(orangered));
+  background-image: linear-gradient(to bottom, aquamarine, orangered);
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Element separation */
+li + li {
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+
+.btn-inicio, .btn-noticias {
+  background-color: transparent;
+  border: 1px solid rgba(179, 179, 179, 0.75);
+}
+
+.btn-inicio:hover, .btn-noticias:hover {
+  background-color: transparent;
+  border: 1px solid rgba(179, 179, 179, 0.75);
 }

@@ -43,7 +43,7 @@ function getUserIP(){
 
 
 $router->get('/', function () use ($router) {
-    return view('layout');
+    return view('layout')->with(['ip' => getUserIP()]);
 });
 
 $router->post('/authip', function (Request $request) use ($router) {

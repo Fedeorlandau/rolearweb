@@ -253,7 +253,7 @@ color:rgb(78, 173, 252) !important;
 
 .login100-form-ip {
   font-family: Poppins-Medium;
-  font-size: 37px;
+  font-size: 16px;
   color: #fff;
   line-height: 1.2;
   text-align: center;
@@ -626,3 +626,4 @@ margin-top: 10px;
   line-height: 1.2;
   display: block;
 }
+
