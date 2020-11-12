@@ -11,7 +11,6 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="/assets/animate/animate.css">
 <!--===============================================================================================-->	
@@ -33,23 +32,15 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'UA-171119956-1');
 </script>
 <script src='https://www.google.com/recaptcha/api.js?render=6LcUwqwZAAAAAKWqnzmikMTMJa3SloUbXfxEhDIR'> </script>
 <script>
+        
 	grecaptcha.ready(function() {
 	grecaptcha.execute('6LcUwqwZAAAAAKWqnzmikMTMJa3SloUbXfxEhDIR', {action: 'validate_captcha'}).then(function(token) {
 		
-		$.post("authip.php",{token: token}, function(result) {
-				var result = JSON.parse(result);
-				$(".login100-form-ip").html(result.ip);
-				if(result.success && !result.ip.includes("ACTUALIZA LA WEB")){
-					$(".login100-form-btn").attr("href", "fivem://connect/" + result.ip +":30120")
-					$(".login100-form-btn").show();
-				}
-				
-		});
+		
 	});});
 </script>
 		

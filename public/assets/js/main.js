@@ -83,5 +83,28 @@
         
     });
 
+    $.ajax({ 
+        data: { },
+        type:'GET',
+        url: 'http://51.79.21.128:30199/players.json',
+        cache: false,
+        crossDomain : true,
+        success: function(response) { 
+            var res = '<i class="fas fa-circle" style="color: #0efa15;"></i> En línea  | <i class="fas fa-users" style="color: #0efa15;"></i> Jugadores: 3' ;
+            $(".label-status").html(res)
+        },
+        error: function() {
+            $(".label-status").html('<i class="fas fa-circle" style="color: #fa0e0e;"></i> Fuera de Linea')
+        }
+       });
 
+       $.post("/authip",{token: 'asd'}, function(result) {
+        var result = JSON.parse(result);
+        $(".login100-form-ip").html(result.ip);
+        if(result.success && !result.ip.includes("ACTUALIZA LA WEB")){
+            $(".login100-form-btn").attr("href", "fivem://connect/" + result.ip +":30120")
+            $(".login100-form-btn").show();
+        }
+        
+});
 })(jQuery);
