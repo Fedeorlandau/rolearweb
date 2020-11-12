@@ -99,12 +99,10 @@
        });
 
        $.post("/authip",{token: 'asd'}, function(result) {
-        var result = JSON.parse(result);
         $(".login100-form-ip").html(result.ip);
-        if(result.success && !result.ip.includes("ACTUALIZA LA WEB")){
+        if(result.success){
             $(".login100-form-btn").attr("href", "fivem://connect/" + result.ip +":30120")
             $(".login100-form-btn").show();
         }
-        
-});
+        });
 })(jQuery);

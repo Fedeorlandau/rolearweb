@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -13,16 +15,40 @@
 |
 */
 
+function getUserIP(){
+    // Get real visitor IP behind CloudFlare network
+    if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+    }
+    $client  = @$_SERVER['HTTP_CLIENT_IP'];
+    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+    $remote  = $_SERVER['REMOTE_ADDR'];
+
+    if(filter_var($client, FILTER_VALIDATE_IP))
+    {
+        $ip = $client;
+    }
+    elseif(filter_var($forward, FILTER_VALIDATE_IP))
+    {
+        $ip = $forward;
+    }
+    else
+    {
+        $ip = $remote;
+    }
+
+    return $ip;
+}
+
+
 $router->get('/', function () use ($router) {
     return view('layout');
 });
 
-$router->post('/authip', function () use ($router) {
-    $ip_firewall = array(
-        'success'=> false,
-        'ip'=> 'ERROR VALIDACION DE CAPCHA, F5.'
-    );
-    if (isset($_POST['token']) ) {
+$router->post('/authip', function (Request $request) use ($router) {
+
+    if ($request->token) {
     
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'; 
         $recaptcha_secret = '6LcUwqwZAAAAABFLlxNqCRlqmiqPV8lIXIl6FbCh'; 
@@ -30,12 +56,12 @@ $router->post('/authip', function () use ($router) {
         $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response); 
         $recaptcha = json_decode($recaptcha); 
         
-        if($recaptcha->score >= 0.7){
+        if($recaptcha->success){
         
-            $post_data = array(
-                "ip_client"=> getUserIP(),
-            );
-            
+            $post_data = [
+                "ip_client" => getUserIP()
+            ];
+
             $url="http://167.114.68.37:8080/authip.php";
             
             $ch = curl_init($url);
@@ -84,44 +110,13 @@ $router->post('/authip', function () use ($router) {
                 'ip'=> $finalip,
             );
         
-            curl_close($ch);
+            return response()->json(['success' => true, 'ip' => $finalip]);
         } else {
-        
-            $ip_firewall = array(
-                'success'=> false,
-                'ip'=> 'No se pudo validar Captcha! Actualiza'
-            );
-        
+            return response()->json(['success' => false, 'ip' => 'No se pudo validar Captcha! Actualiza']);  
         }
         
     }
     
     
-    function getUserIP(){
-        // Get real visitor IP behind CloudFlare network
-        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-                $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-                $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-        }
-        $client  = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote  = $_SERVER['REMOTE_ADDR'];
     
-        if(filter_var($client, FILTER_VALIDATE_IP))
-        {
-            $ip = $client;
-        }
-        elseif(filter_var($forward, FILTER_VALIDATE_IP))
-        {
-            $ip = $forward;
-        }
-        else
-        {
-            $ip = $remote;
-        }
-    
-        return $ip;
-    }
-    
-    echo json_encode($ip_firewall);
 });
